@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE EDIT FILES — Case Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Oswald:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --kraft: #b89a6c;
+    --kraft-dark: #9c7f52;
+    --paper: #f2ead9;
+    --paper-dim: #e8dcc2;
+    --ink: #221a12;
+    --red: #a31515;
+    --red-dark: #7a0f0f;
+    --manila: #ddc794;
+    --pin-shadow: rgba(0,0,0,.45);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.05), transparent 40%),
+      repeating-linear-gradient(45deg, rgba(0,0,0,.015) 0px, rgba(0,0,0,.015) 2px, transparent 2px, transparent 4px),
+      var(--kraft);
+    color:var(--ink);
+    font-family:'Courier Prime', monospace;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,.stamp,.tag-label{font-family:'Special Elite', cursive;}
+  .oswald{font-family:'Oswald', sans-serif;}
+
+  /* ---------- string / pin utilities ---------- */
+  .pin{
+    position:absolute;
+    width:16px;height:16px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #e15c5c, var(--red-dark) 70%);
+    box-shadow:0 3px 5px var(--pin-shadow), inset 0 0 2px rgba(0,0,0,.4);
+    z-index:5;
+  }
+  .paper-card{
+    background:var(--paper);
+    background-image:
+      linear-gradient(rgba(0,0,0,0) 90%, rgba(0,0,0,.03) 100%);
+    box-shadow:0 10px 25px rgba(0,0,0,.35), 0 2px 4px rgba(0,0,0,.2);
+    position:relative;
+    padding:26px 24px;
+    border:1px solid rgba(0,0,0,.08);
+  }
+  .paper-card::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events:none;
+  }
+  .torn-edge{
+    -webkit-mask-image: linear-gradient(black, black);
+  }
+  .rotate-2{transform:rotate(-2deg);}
+  .rotate-1{transform:rotate(1.5deg);}
+  .rotate-3{transform:rotate(2.5deg);}
+  .rotate-n3{transform:rotate(-3deg);}
+
+  .stamp{
+    display:inline-block;
+    border:3px solid var(--red);
+    color:var(--red);
+    font-weight:700;
+    padding:6px 14px;
+    border-radius:6px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    transform:rotate(-8deg);
+    opacity:.9;
+    background:rgba(163,21,21,.04);
+    box-shadow:0 0 0 1px rgba(163,21,21,.15) inset;
+  }
+
+  .scribble-underline{
+    position:relative;
+    display:inline-block;
+  }
+  .scribble-underline svg{
+    position:absolute;
+    left:-4%; bottom:-10px;
+    width:108%; height:16px;
+    z-index:-1;
+  }
+
+  section{
+    position:relative;
+    padding:110px 8vw;
+    max-width:1300px;
+    margin:0 auto;
+  }
+
+  .section-eyebrow{
+    color:var(--red-dark);
+    letter-spacing:4px;
+    text-transform:uppercase;
+    font-size:.75rem;
+    font-family:'Oswald',sans-serif;
+    font-weight:600;
+    margin-bottom:10px;
+  }
+
+  .section-title{
+    font-size:clamp(2.2rem, 5vw, 3.6rem);
+    margin:0 0 40px 0;
+    line-height:1.05;
+  }
+
+  /* red string SVG layer that runs the length of the page, behind content */
+  #string-layer{
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    z-index:0;
+    pointer-events:none;
+  }
+
+  /* ---------- HERO ---------- */
+  #hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    padding-top:60px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:60px;
+    align-items:center;
+    width:100%;
+  }
+  .wanted-frame{
+    background:var(--paper);
+    border:10px solid var(--ink);
+    padding:18px;
+    width:300px;
+    box-shadow:0 20px 40px rgba(0,0,0,.45);
+    position:relative;
+  }
+  .wanted-frame .wanted-title{
+    text-align:center;
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:1.6rem;
+    letter-spacing:3px;
+    margin-bottom:10px;
+  }
+  .photo-box{
+    width:100%;
+    aspect-ratio:1/1;
+    background:
+      repeating-linear-gradient(135deg, #7c6a4d, #7c6a4d 8px, #6a5b41 8px, #6a5b41 16px);
+    display:flex;align-items:center;justify-content:center;
+    border:2px solid var(--ink);
+    color:var(--paper);
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:3.4rem;
+    letter-spacing:2px;
+  }
+  .wanted-frame .reward{
+    text-align:center;
+    margin-top:10px;
+    font-family:'Special Elite',cursive;
+    font-size:1.1rem;
+    color:var(--red-dark);
+  }
+
+  .hero-copy .eyebrow-stamp{
+    margin-bottom:22px;
+  }
+  .hero-copy h1{
+    font-size:clamp(2.6rem, 6vw, 4.6rem);
+    line-height:1.02;
+    margin:0 0 20px 0;
+  }
+  .hero-copy p{
+    font-size:1.05rem;
+    line-height:1.7;
+    max-width:52ch;
+    color:#2b2013;
+  }
+  .file-tag{
+    display:inline-block;
+    background:var(--manila);
+    border:1px solid rgba(0,0,0,.25);
+    padding:4px 12px;
+    font-size:.8rem;
+    font-family:'Oswald',sans-serif;
+    letter-spacing:1px;
+    margin-top:24px;
+  }
+
+  /* ---------- SERVICES ---------- */
+  .services-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+    gap:34px;
+  }
+  .service-card{
+    position:relative;
+  }
+  .service-card h3{
+    font-size:1.25rem;
+    margin:6px 0 10px;
+    color:var(--red-dark);
+  }
+  .service-card p{
+    font-size:.92rem;
+    line-height:1.6;
+    margin:0;
+  }
+  .case-number{
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:.75rem;
+    letter-spacing:2px;
+    color:var(--ink);
+    opacity:.55;
+  }
+
+  /* ---------- TOOLS ---------- */
+  .tool-category{
+    margin-bottom:48px;
+  }
+  .tool-category h4{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:3px;
+    font-size:.85rem;
+    color:var(--red-dark);
+    border-bottom:2px dashed rgba(163,21,21,.35);
+    padding-bottom:10px;
+    margin-bottom:18px;
+  }
+  .tool-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .tool-badge{
+    background:var(--manila);
+    border:1px solid rgba(0,0,0,.3);
+    padding:9px 16px;
+    font-family:'Oswald',sans-serif;
+    font-weight:500;
+    font-size:.85rem;
+    letter-spacing:.5px;
+    box-shadow:2px 3px 0 rgba(0,0,0,.15);
+    position:relative;
+  }
+  .tool-badge::before{
+    content:"•";
+    color:var(--red);
+    margin-right:8px;
+    font-weight:900;
+  }
+
+  /* ---------- PROCESS TIMELINE ---------- */
+  .timeline{
+    position:relative;
+    padding-left:50px;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:14px; top:6px; bottom:6px;
+    width:3px;
+    background:repeating-linear-gradient(to bottom, var(--red), var(--red) 8px, transparent 8px, transparent 16px);
+  }
+  .timeline-item{
+    position:relative;
+    margin-bottom:52px;
+  }
+  .timeline-item:last-child{margin-bottom:0;}
+  .timeline-dot{
+    position:absolute;
+    left:-50px; top:2px;
+    width:30px;height:30px;
+    border-radius:50%;
+    background:var(--paper);
+    border:3px solid var(--red);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:.85rem;
+    color:var(--red-dark);
+    box-shadow:0 3px 6px rgba(0,0,0,.3);
+  }
+  .timeline-item h3{
+    margin:0 0 8px 0;
+    font-size:1.35rem;
+  }
+  .timeline-item p{
+    margin:0;
+    max-width:62ch;
+    line-height:1.65;
+    font-size:.95rem;
+  }
+
+  /* ---------- GALLERY (mockups + previous works) ---------- */
+  .polaroid-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
+    gap:32px;
+  }
+  .polaroid{
+    background:var(--paper);
+    padding:14px 14px 42px 14px;
+    box-shadow:0 12px 24px rgba(0,0,0,.35);
+    position:relative;
+  }
+  .polaroid .shot{
+    width:100%;
+    aspect-ratio:4/3;
+    background:linear-gradient(135deg,#8a7a5c,#5c4d34);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--paper-dim);
+    font-family:'Oswald',sans-serif;
+    font-size:.85rem;
+    letter-spacing:1px;
+    text-align:center;
+    padding:10px;
+  }
+  .polaroid .cap{
+    position:absolute;
+    bottom:10px; left:14px; right:14px;
+    font-family:'Special Elite',cursive;
+    font-size:.9rem;
+    color:var(--ink);
+    text-align:center;
+  }
+  .exhibit-label{
+    position:absolute;
+    top:-14px; left:14px;
+    background:var(--red);
+    color:var(--paper);
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:.7rem;
+    letter-spacing:2px;
+    padding:4px 10px;
+    transform:rotate(-3deg);
+    z-index:2;
+  }
+
+  /* reels sub-shape */
+  .shot.reel{
+    background:repeating-linear-gradient(90deg,#3a3227,#3a3227 10px,#4c4232 10px,#4c4232 20px);
+  }
+
+  /* ---------- OUTRO ---------- */
+  #outro{
+    text-align:center;
+    padding-bottom:140px;
+  }
+  #outro .stamp{
+    font-size:2.4rem;
+    padding:14px 30px;
+    transform:rotate(-6deg);
+  }
+  #outro p{
+    max-width:52ch;
+    margin:26px auto 34px;
+    line-height:1.7;
+  }
+  .cta-btn{
+    display:inline-block;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Oswald',sans-serif;
+    font-weight:600;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    padding:16px 34px;
+    text-decoration:none;
+    border:2px solid var(--ink);
+    transition:all .25s ease;
+  }
+  .cta-btn:hover{
+    background:var(--red-dark);
+    border-color:var(--red-dark);
+    color:var(--paper);
+  }
+  .case-closed-tape{
+    margin-top:50px;
+    font-family:'Oswald',sans-serif;
+    font-size:.75rem;
+    letter-spacing:3px;
+    opacity:.5;
+  }
+
+  @media (max-width: 820px){
+    .hero-grid{grid-template-columns:1fr;}
+    .wanted-frame{width:220px; margin:0 auto;}
+    section{padding:80px 6vw;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<!-- =============== HERO / ABOUT =============== -->
+<section id="hero">
+  <svg id="string-layer" viewBox="0 0 1300 700" preserveAspectRatio="none" style="height:700px;">
+    <path d="M 20,40 L 470,180 L 1000,60" stroke="#a31515" stroke-width="2.5" fill="none" opacity="0.75"/>
+    <path d="M 470,180 L 760,520" stroke="#a31515" stroke-width="2.5" fill="none" opacity="0.75"/>
+  </svg>
+  <div class="pin" style="top:38px; left:14px;"></div>
+  <div class="pin" style="top:178px; left:462px;"></div>
+  <div class="pin" style="top:58px; left:992px;"></div>
+  <div class="pin" style="top:512px; left:752px;"></div>
+
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <div class="eyebrow-stamp"><span class="stamp">Case File Open</span></div>
+      <h1>THE EDIT<br>FILES</h1>
+      <p>
+        I'm a video editor and social media strategist who turns raw footage and loose ideas into
+        content people can't scroll past. Every project starts the same way — treated like a case
+        that needs solving: find the story hiding in the clips, cut it tight, and put it in front
+        of the right eyes.
+      </p>
+      <div class="file-tag">SUBJECT: FREELANCE VIDEO EDITOR / SOCIAL MEDIA MANAGER</div>
+    </div>
+
+    <div class="wanted-frame rotate-1">
+      <div class="wanted-title">WANTED</div>
+      <div class="photo-box">YOU<br>[PHOTO]</div>
+      <div class="reward">FOR CRIMES AGAINST BORING CONTENT</div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== SERVICES =============== -->
+<section id="services">
+  <div class="section-eyebrow">Evidence Log — 01</div>
+  <h2 class="section-title">What I'm Charged<br>With Doing</h2>
+
+  <div class="services-grid">
+    <div class="paper-card service-card rotate-n3">
+      <div class="case-number">EXHIBIT A</div>
+      <h3>Video Editing</h3>
+      <p>Long-form, short-form, talking-head, B-roll heavy — cut, color, sound designed, and paced
+        to hold attention from first frame to last.</p>
+    </div>
+    <div class="paper-card service-card rotate-2">
+      <div class="case-number">EXHIBIT B</div>
+      <h3>Short-Form Content (Reels / Shorts)</h3>
+      <p>Hook-first edits built for TikTok, Reels, and YouTube Shorts, with captions, motion text,
+        and trend-aware pacing that keeps the algorithm interested.</p>
+    </div>
+    <div class="paper-card service-card rotate-1">
+      <div class="case-number">EXHIBIT C</div>
+      <h3>Graphic Design</h3>
+      <p>Thumbnails, carousels, brand templates, and static posts that stop the scroll and stay on
+        brand across every platform.</p>
+    </div>
+    <div class="paper-card service-card rotate-n3">
+      <div class="case-number">EXHIBIT D</div>
+      <h3>Social Media Management</h3>
+      <p>Content calendars, captions, posting schedules, and engagement — the full day-to-day
+        upkeep of an account's presence.</p>
+    </div>
+    <div class="paper-card service-card rotate-2">
+      <div class="case-number">EXHIBIT E</div>
+      <h3>AI-Assisted Production</h3>
+      <p>AI avatars, voiceovers, and scripting worked into the pipeline to move faster without
+        losing a human touch.</p>
+    </div>
+    <div class="paper-card service-card rotate-1">
+      <div class="case-number">EXHIBIT F</div>
+      <h3>Strategy &amp; Reporting</h3>
+      <p>Content planning tied to real goals, with performance tracked and reported back in plain
+        terms — what worked, what didn't, what's next.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =============== TOOLS / SOFTWARE =============== -->
+<section id="tools">
+  <div class="section-eyebrow">Evidence Log — 02</div>
+  <h2 class="section-title">Tools Found<br>At The Scene</h2>
+
+  <div class="tool-category">
+    <h4>Editing &amp; Design</h4>
+    <div class="tool-row">
+      <div class="tool-badge">CapCut</div>
+      <div class="tool-badge">Premiere Pro</div>
+      <div class="tool-badge">Photoshop</div>
+      <div class="tool-badge">Canva</div>
+    </div>
+  </div>
+
+  <div class="tool-category">
+    <h4>AI Collaborators</h4>
+    <div class="tool-row">
+      <div class="tool-badge">ChatGPT</div>
+      <div class="tool-badge">Claude</div>
+      <div class="tool-badge">Gemini AI</div>
+      <div class="tool-badge">HeyGen</div>
+      <div class="tool-badge">ElevenLabs</div>
+    </div>
+  </div>
+
+  <div class="tool-category">
+    <h4>Platforms &amp; Distribution</h4>
+    <div class="tool-row">
+      <div class="tool-badge">YouTube</div>
+      <div class="tool-badge">TikTok</div>
+      <div class="tool-badge">Instagram</div>
+      <div class="tool-badge">Facebook</div>
+      <div class="tool-badge">Pinterest</div>
+    </div>
+  </div>
+
+  <div class="tool-category">
+    <h4>Productivity</h4>
+    <div class="tool-row">
+      <div class="tool-badge">Google Workspace</div>
+      <div class="tool-badge">Microsoft</div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== CREATIVE PROCESS (TIMELINE) =============== -->
+<section id="process">
+  <div class="section-eyebrow">Case Timeline — 03</div>
+  <h2 class="section-title">How The Case<br>Gets Solved</h2>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot">01</div>
+      <h3>Discovery Call</h3>
+      <p>We talk through your brand, your goals, and what "success" actually looks like for you —
+        before a single clip gets touched.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">02</div>
+      <h3>Social Media Marketing Proposal</h3>
+      <p>A clear proposal outlining content direction, deliverables, timeline, and pricing — no
+        surprises, no fine print.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">03</div>
+      <h3>Onboarding</h3>
+      <p>Brand assets, account access, and workflow tools get set up so we can move fast from day
+        one.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">04</div>
+      <h3>Planning &amp; Strategizing</h3>
+      <p>Content calendars, hooks, and formats get mapped out based on what your audience actually
+        responds to.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">05</div>
+      <h3>Execution &amp; Results</h3>
+      <p>Content goes out on schedule, gets tracked, and gets reported back — with adjustments made
+        as the data comes in.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =============== MOCKUPS =============== -->
+<section id="mockups">
+  <div class="section-eyebrow">Exhibit Room — 04</div>
+  <h2 class="section-title">Mockups On<br>The Board</h2>
+
+  <div class="polaroid-grid">
+    <div class="polaroid rotate-n3">
+      <div class="exhibit-label">MOCKUP</div>
+      <div class="shot">Graphic Design Mockup 01</div>
+      <div class="cap">Instagram carousel concept</div>
+    </div>
+    <div class="polaroid rotate-2">
+      <div class="exhibit-label">MOCKUP</div>
+      <div class="shot">Graphic Design Mockup 02</div>
+      <div class="cap">Brand thumbnail set</div>
+    </div>
+    <div class="polaroid rotate-1">
+      <div class="exhibit-label">MOCKUP</div>
+      <div class="shot reel">YT Shorts / Reels 01</div>
+      <div class="cap">Vertical short-form template</div>
+    </div>
+    <div class="polaroid rotate-n3">
+      <div class="exhibit-label">MOCKUP</div>
+      <div class="shot reel">YT Shorts / Reels 02</div>
+      <div class="cap">Caption &amp; hook styling</div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== PREVIOUS WORKS =============== -->
+<section id="works">
+  <div class="section-eyebrow">Closed Cases — 05</div>
+  <h2 class="section-title">Previous<br>Cases Solved</h2>
+
+  <div class="polaroid-grid">
+    <div class="polaroid rotate-2">
+      <div class="exhibit-label">CASE CLOSED</div>
+      <div class="shot">Graphic Design 01</div>
+      <div class="cap">Client campaign artwork</div>
+    </div>
+    <div class="polaroid rotate-n3">
+      <div class="exhibit-label">CASE CLOSED</div>
+      <div class="shot">Graphic Design 02</div>
+      <div class="cap">Social post series</div>
+    </div>
+    <div class="polaroid rotate-1">
+      <div class="exhibit-label">CASE CLOSED</div>
+      <div class="shot reel">YT Shorts / Reels 01</div>
+      <div class="cap">Published short-form edit</div>
+    </div>
+    <div class="polaroid rotate-2">
+      <div class="exhibit-label">CASE CLOSED</div>
+      <div class="shot reel">YT Shorts / Reels 02</div>
+      <div class="cap">Published reel edit</div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== OUTRO =============== -->
+<section id="outro">
+  <div class="stamp">Case Closed</div>
+  <p>
+    Got a project that needs solving? Let's put together a case file for your brand — one that
+    actually gets people to stop, watch, and follow.
+  </p>
+  <a href="#hero" class="cta-btn">Open A New Case</a>
+  <div class="case-closed-tape">— END OF FILE —</div>
+</section>
+
+</body>
+</html>
